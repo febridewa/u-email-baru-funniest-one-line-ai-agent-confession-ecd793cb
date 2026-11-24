@@ -25,3 +25,10 @@ if (LINE.length < 1 || LINE.length > 200) {
 
 mkdirSync("/output", { recursive: true });
 writeFileSync("/output/entry.txt", LINE, "utf8");
+
+// Self-check: the file the grader reads must be exactly the line, with
+// no trailing newline and no extra bytes.
+import { readFileSync } from "node:fs";
+if (readFileSync("/output/entry.txt", "utf8") !== LINE) {
+  throw new Error("entry.txt does not match the authored line byte-for-byte");
+}
